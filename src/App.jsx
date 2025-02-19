@@ -7,7 +7,7 @@ import Pelicula from './components/Pelicula';
 import { updatebuscador, getPopular } from './appwrite';
 
 const API_BASE_URL = 'https://api.themoviedb.org/3';
-const API_KEY = import.meta.env.VITE_IMDB_API_KEY;
+const API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiODAzN2JmMGI3YmFlOTdmMDNhMzU5NjJmOGZlYmRhNSIsIm5iZiI6MTczOTk3NjY2Ni4zMzUsInN1YiI6IjY3YjVlZmRhMjE1MjYzOGY1ZWUzZTZjMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.F9ccmeZw6qQ6bcvujSeMu499xOI48S-1Xk41TqFcI_M";
 
 const API_OPTIONS = {
   method: 'GET',
@@ -36,7 +36,7 @@ function App() {
     setError(null);
     try {
       const endpoint = query ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}` :
-      `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
+        `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
       const response = await fetch(
         endpoint,
         API_OPTIONS
@@ -53,7 +53,7 @@ function App() {
       if (query && data.results.length > 0) {
         await updatebuscador(query, data.results[0]);
       }
-      
+
       return;
     } catch (error) {
       console.error(error);
@@ -91,14 +91,14 @@ function App() {
             </h1>
             <Buscar buscartitulo={buscartitulo} setBuscartitulo={setBuscartitulo} />
           </header>
-          
+
           {popular.length > 0 && (
             <section className='trending'>
               <h2 className='mt-[40px]'>Populares</h2>
               <ul>
                 {popular.map((movie, index) => (
                   <li key={movie.$id}>
-                    <p>{index+1}</p>
+                    <p>{index + 1}</p>
                     <img src={movie.poster_url} alt={movie.title} />
                   </li>
                 ))}
@@ -108,16 +108,16 @@ function App() {
 
           <section className='all-movies'>
             <h2 className='mt-[40px]'>Peliculas</h2>
-            {loading ? (<Carga/>) : error ? 
-            (<p className='text-red-500'>Error: {error.message}</p>)
-            : 
-            (
-              <ul>
-                {movies.map((movie) => (
-                  <Pelicula key={movie.id} movie={movie} />
-                ))}
-              </ul>
-            )}
+            {loading ? (<Carga />) : error ?
+              (<p className='text-red-500'>Error: {error.message}</p>)
+              :
+              (
+                <ul>
+                  {movies.map((movie) => (
+                    <Pelicula key={movie.id} movie={movie} />
+                  ))}
+                </ul>
+              )}
           </section>
 
         </div>
